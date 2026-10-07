@@ -1,0 +1,1 @@
+Implemented deterministic scalar composition of a linear prior and residual correction with tests and CI.
