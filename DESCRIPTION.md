@@ -1,0 +1,1 @@
+Research prototype combining an interpretable linear-control prior with a residual correction layer.
