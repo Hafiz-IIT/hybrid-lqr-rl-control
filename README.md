@@ -22,3 +22,4 @@ python -m unittest discover -s tests -v
 The current artifact is a research scaffold. It does not claim optimal control, learned-policy superiority, formal safety, or robotic deployment.
 
 Related: [Safe RL Action Gate](https://github.com/Hafiz-IIT/safe-rl-action-gate) · [Residual RL with Linear Priors](https://github.com/Hafiz-IIT/residual-rl-linear-priors)
+\n\n## Evidence status\n\nThis repository is the **primary executable control scaffold**; its manuscript companion is [hybrid-lqr-rl-paper](https://github.com/Hafiz-IIT/hybrid-lqr-rl-paper).\n\n## Limitations\n\nThe current implementation is intentionally scalar and deterministic. It demonstrates composition of a transparent LQR-style prior and residual interface, but does not establish optimality, broad benchmark superiority, formal safety, or robotic deployment.\n
