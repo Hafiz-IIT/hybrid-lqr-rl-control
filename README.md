@@ -3,6 +3,8 @@
 > **Research prototype:** combining an interpretable LQR-style baseline with a residual correction layer.
 
 ## Research question
+
+<p align="center"><a href="https://github.com/Hafiz-IIT/hybrid-lqr-rl-control/actions"><img src="https://img.shields.io/github/actions/workflow/status/Hafiz-IIT/hybrid-lqr-rl-control/ci.yml?label=CI" alt="CI"/></a></p>
 Can a structured linear controller provide a useful prior while a learned residual handles dynamics not captured by the prior?
 
 ## Implemented
