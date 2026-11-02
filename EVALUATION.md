@@ -1,0 +1,1 @@
+Compare prior-only, residual-only diagnostic, and hybrid policies on matched initial states and disturbance sequences. Sweep plant parameters, residual bounds, and action limits. Report cumulative cost, terminal error, peak state, saturation fraction, and divergence rate. Current status: scalar simulation implemented; no comparative benchmark or stability claim.
