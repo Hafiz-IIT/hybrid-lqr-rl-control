@@ -1,27 +1,26 @@
-# Hybrid LQR + Learned Residual Control
+# Hybrid LQR + Residual Control
 
-> **Research prototype:** combining an interpretable LQR-style baseline with a residual correction layer.
+An inspectable scalar control experiment combining a transparent linear feedback prior with a bounded nonlinear residual term on a simple discrete-time plant.
 
 ## Research question
-
-<p align="center"><a href="https://github.com/Hafiz-IIT/hybrid-lqr-rl-control/actions"><img src="https://img.shields.io/github/actions/workflow/status/Hafiz-IIT/hybrid-lqr-rl-control/ci.yml?label=CI" alt="CI"/></a></p>
-Can a structured linear controller provide a useful prior while a learned residual handles dynamics not captured by the prior?
+Can a bounded nonlinear residual complement a transparent linear feedback prior without allowing the residual to dominate the controller?
 
 ## Implemented
-- scalar linear feedback baseline
-- residual correction interface
-- compositional action calculation
-- deterministic rollout
-- tests
+- linear feedback prior u_p = -k_p x
+- cubic residual with explicit clipping
+- final action saturation
+- configurable gains and bounds
+- scalar plant rollout with constant disturbance
+- state, action, and stage-cost traces
 
-## Quickstart
-```bash
-python demo.py
-python -m unittest discover -s tests -v
-```
+## Run
+    python demo.py
+    python -m unittest discover -s tests -v
 
-## Boundary
-The current artifact is a research scaffold. It does not claim optimal control, learned-policy superiority, formal safety, or robotic deployment.
+## Plant and objective
+The simulation uses x[t+1] = a*x[t] + b*u[t] + w and illustrative stage cost x[t]^2 + 0.01*u[t]^2. These choices are not a calibrated physical robot model.
 
-Related: [Safe RL Action Gate](https://github.com/Hafiz-IIT/safe-rl-action-gate) · [Residual RL with Linear Priors](https://github.com/Hafiz-IIT/residual-rl-linear-priors)
-\n\n## Evidence status\n\nThis repository is the **primary executable control scaffold**; its manuscript companion is [hybrid-lqr-rl-paper](https://github.com/Hafiz-IIT/hybrid-lqr-rl-paper).\n\n## Limitations\n\nThe current implementation is intentionally scalar and deterministic. It demonstrates composition of a transparent LQR-style prior and residual interface, but does not establish optimality, broad benchmark superiority, formal safety, or robotic deployment.\n
+## Limitations
+The residual is a fixed nonlinear function, not a trained RL policy. The implementation does not solve a Riccati equation or provide formal stability analysis. Bounded actions do not imply closed-loop safety or stability.
+
+See [EVALUATION.md](EVALUATION.md) for the matched-baseline experiment design.
