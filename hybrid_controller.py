@@ -1,4 +1,4 @@
-"""Inspectable hybrid controller: LQR-like prior plus bounded residual.
+"""Inspectable hybrid controller: scalar linear feedback plus a fixed bounded cubic residual.
 
 A scalar linear plant is used to make the control loop reproducible. No
 hardware, learned policy, or formal stability guarantee is claimed.
@@ -22,13 +22,13 @@ class ControllerConfig:
             raise ValueError("residual_limit must be non-negative and action_limit positive")
 
 
-def lqr_prior(state: float, gain: float = 0.9) -> float:
+def linear_feedback_prior(state: float, gain: float = 0.9) -> float:
     if not math.isfinite(state) or not math.isfinite(gain):
         raise ValueError("state and gain must be finite")
     return -gain * state
 
 
-def learned_residual(state: float, coefficient: float = 0.05, limit: float = 0.2) -> float:
+def fixed_cubic_residual(state: float, coefficient: float = 0.05, limit: float = 0.2) -> float:
     if not all(math.isfinite(v) for v in (state, coefficient, limit)) or limit < 0:
         raise ValueError("finite inputs and non-negative limit required")
     raw = coefficient * state ** 3
@@ -37,7 +37,7 @@ def learned_residual(state: float, coefficient: float = 0.05, limit: float = 0.2
 
 def action(state: float, config: ControllerConfig | None = None) -> float:
     config = config or ControllerConfig()
-    raw = lqr_prior(state, config.prior_gain) + learned_residual(
+    raw = linear_feedback_prior(state, config.prior_gain) + fixed_cubic_residual(
         state, config.residual_gain, config.residual_limit
     )
     return max(-config.action_limit, min(config.action_limit, raw))
