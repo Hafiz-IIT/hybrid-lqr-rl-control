@@ -8,9 +8,15 @@ import math
 
 
 def _finite(name: str, value: float) -> float:
-    if isinstance(value, bool) or not isinstance(value, (int, float)) or not math.isfinite(value):
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
         raise ValueError(f"{name} must be a finite number")
-    return float(value)
+    try:
+        normalized = float(value)
+    except (OverflowError, TypeError, ValueError) as exc:
+        raise ValueError(f"{name} must be a finite number") from exc
+    if not math.isfinite(normalized):
+        raise ValueError(f"{name} must be a finite number")
+    return normalized
 
 
 @dataclass(frozen=True)
@@ -45,7 +51,9 @@ def fixed_cubic_residual(state: float, coefficient: float = 0.05, limit: float =
 
 
 def action(state: float, config: ControllerConfig | None = None) -> float:
-    config = config or ControllerConfig()
+    config = ControllerConfig() if config is None else config
+    if not isinstance(config, ControllerConfig):
+        raise TypeError("config must be a ControllerConfig")
     raw = linear_feedback_prior(state, config.prior_gain) + fixed_cubic_residual(
         state, config.residual_gain, config.residual_limit
     )
