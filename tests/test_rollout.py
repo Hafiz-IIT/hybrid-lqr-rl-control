@@ -23,6 +23,9 @@ class RolloutTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             ControllerConfig(action_limit=float("inf"))
 
+    def test_extreme_finite_state_saturates_residual(self):
+        self.assertEqual(fixed_cubic_residual(1e308), 0.2)
+
     def test_zero_steps(self):
         self.assertEqual(simulate(1.0, steps=0)["states"], [1.0])
 
