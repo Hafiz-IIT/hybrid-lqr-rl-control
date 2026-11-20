@@ -40,7 +40,7 @@ def fixed_cubic_residual(state: float, coefficient: float = 0.05, limit: float =
     limit = _finite("limit", limit)
     if limit < 0:
         raise ValueError("limit must be non-negative")
-    raw = coefficient * state ** 3
+    raw = coefficient * state * state * state
     return max(-limit, min(limit, raw))
 
 
