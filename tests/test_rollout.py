@@ -1,5 +1,5 @@
 import unittest
-from hybrid_controller import ControllerConfig, action, simulate
+from hybrid_controller import ControllerConfig, action, fixed_cubic_residual, simulate
 
 class RolloutTests(unittest.TestCase):
     def test_action_is_bounded(self):
