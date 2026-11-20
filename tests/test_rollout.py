@@ -12,6 +12,17 @@ class RolloutTests(unittest.TestCase):
         self.assertEqual(len(result["actions"]), 7)
         self.assertEqual(len(result["stage_costs"]), 7)
 
+    def test_noninteger_steps_rejected(self):
+        for value in (True, 2.5):
+            with self.subTest(value=value), self.assertRaises(ValueError):
+                simulate(1.0, steps=value)
+
+    def test_nonfinite_inputs_rejected(self):
+        with self.assertRaises(ValueError):
+            simulate(float("nan"))
+        with self.assertRaises(ValueError):
+            ControllerConfig(action_limit=float("inf"))
+
     def test_zero_steps(self):
         self.assertEqual(simulate(1.0, steps=0)["states"], [1.0])
 
